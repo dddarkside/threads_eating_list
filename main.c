@@ -8,6 +8,7 @@
 
 #define NDEBUG
 #define DEFAULT_SIZE 100000
+#define RAND_LIM 1024
 
 struct list{
     struct list* prev;
@@ -89,33 +90,52 @@ void* eater(void* arg){
         pthread_mutex_lock(&mutex);
         stop = global_size--;
         pthread_mutex_unlock(&mutex);
-        if(stop==-1)stop=0;  // LINE THAT MADE BIIIIIIIIG PROBLEMS (maybe)
+        if(stop==-1)stop=0;
     }
+    pthread_mutex_lock(&mutex);
+    global_size = 0;
+    pthread_mutex_unlock(&mutex);
 
     if(mode)printf("Quantity of ones:%d , Elements checked:%d\n",digits_c,elems_c);
     else printf("Quantity of zeros:%d , Elements checked:%d\n",digits_c,elems_c);
 }
 
 
+void error(int key){
+	if(!key)printf("ERROR: There is not numeric argument for size");
+	else if(key)printf("ERROR: memory allocation has been failed");
+    //  "else if" not "else" for the future
+}
+
+
 int main(int argc, char* argv[]) {
     // Choosing size of list:
-    unsigned long size = DEFAULT_SIZE;
+    global_size = DEFAULT_SIZE;
     if(argc>1) {
-        size = strtoul(argv[1],NULL,10);
-        if(size > INT_MAX-1) size = DEFAULT_SIZE;
+        global_size = strtoul(argv[1],NULL,10);
+        if(!global_size){
+            error(0);
+            return -20022002; //  Check that not char
+        }
+        if(global_size > INT_MAX-1) global_size = DEFAULT_SIZE; // check that not long
     }
-    global_size = size;
 
     // Making random list:
     srand(time(NULL));
     struct list* field;
-    if(!(field = malloc(sizeof(struct list))))return -20022002;
+    if(!(field = (struct list*)malloc(sizeof(struct list)))){
+        error(1);
+        return -20022002;
+    }
     struct list* current = field;
-    current->value = rand();
-    for(int i=0;i<size;++i){
-        if(!(current->next = malloc(sizeof(struct list))))return -20022002;
+    current->value = rand()%RAND_LIM;
+    for(int i=0;i<global_size;++i){
+        if(!(current->next = malloc(sizeof(struct list)))){
+            error(1);
+            return -20022002;
+        }
         current->next->prev = current;
-        current->value = rand()%32;
+        current->value = rand()%RAND_LIM;
         current = current->next;
     }
 
@@ -132,5 +152,8 @@ int main(int argc, char* argv[]) {
     pthread_join(thr2,NULL);
 
     pthread_mutex_destroy(&mutex);
+#ifdef DEBUG
+        printf("global_size %d",global_size);
+#endif
     return 0;
 }
