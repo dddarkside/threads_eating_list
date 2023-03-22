@@ -1,7 +1,7 @@
 Big rebuild finally ended!<br>
 So, how it works now?<br>
 
-The biggest chages are that:<br>
+The biggest changes are:<br>
 -Project was split into separate files and functions.<br>
 -Replacing "global_size" idea by two pointers<br>
 
