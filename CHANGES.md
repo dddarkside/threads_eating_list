@@ -1,9 +1,9 @@
-Big rebuild finally ended!
-So, how it works now?
+Big rebuild finally ended!<br>
+So, how it works now?<br>
 
-The biggest chages are that:
--Project was split into separate files and functions.
--Replacing "global_size" idea by two pointers
+The biggest chages are that:<br>
+-Project was split into separate files and functions.<br>
+-Replacing "global_size" idea by two pointers<br>
 
 Let's take a look who is who!
 
@@ -35,6 +35,6 @@ There're some check functions and "#ifdef DEBUG " tools like printing some infor
 Make:
 ---
 |Build system|<br>
-Excepts classic variants of build there're:
--DEBUG: if you want to check absence of data races
+Excepts classic variants of build there're:<br>
+-DEBUG: if you want to check absence of data races<br>
 -DEFAULT: to build and execute by one command
