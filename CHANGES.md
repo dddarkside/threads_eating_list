@@ -15,12 +15,12 @@ main:
 
 DoubleLinkedList:
 ---  
-|Contains the functions to create Double Linked List.|
+|Contains the functions to create Double Linked List.|<br>
 Every list node has value and pointers to next and previous Nodes. The whole system is bounded by start and end nodes,  which always has special values: start = 0 and end = INT_MAX. This idea is also protect project from mistakeble counting boundary nodes. If first thread try "eat" end node, it will not find any "0" bits in end node value. And the same situation for second thread, but opposite.
 
 eater:
 ---
-|Contains realization of thread function and everything it needs.|
+|Contains realization of thread function and everything it needs.|<br>
 So, firstly every thread initialize some variables for the work. Then it identifies which of threads it is? The first or the Second one? The result of identification goes to variable mode and rule all thread life. After identification thread tries to make first safe step and if everything OK, start cycle with steps and countings.
 
 Every trying to step thread checks the space to go and if it exists, the current pointer go to next element and memory of, now, previous become freed. If there is no space to move, the only one thing thread needs to do, is freeing up memory of current element and nullify pointer to this memory in next element (of course if it's exists). All operations in trying move are protected by mutex.
