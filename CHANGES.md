@@ -32,4 +32,9 @@ Debug:
 |Some tools for development|<br>
 There're some check functions and "#ifdef DEBUG " tools like printing some information or for example replacing random filling of nodes, by range from 1 to size - to check is everything good.
 
-
+Make:
+---
+|Build system|<br>
+Excepts classic variants of build there're:
+-DEBUG: if you want to check absence of data races
+-DEFAULT: to build and execute by one command
